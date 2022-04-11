@@ -1,1 +1,1 @@
-export const API = 'https://polite-badger-37.loca.lt/api';
+export const API = 'https://shaggy-bobcat-78.loca.lt//api';
