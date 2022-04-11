@@ -5,6 +5,7 @@ import UserInput from '../components/auth/UserInput';
 import axios from 'axios';
 import Circlelogo from '../components/auth/Circlelogo';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API } from '../config';
 
 const Signup = ({ navigation }) => {
@@ -35,6 +36,9 @@ const Signup = ({ navigation }) => {
 				alert(data.error);
 				setLoading(false);
 			} else {
+				// save response data in async storage
+				await AsyncStorage.setItem('@auth', JSON.stringify(data));
+
 				console.log('Registration successfull', data);
 				alert('Sign Up successfull');
 				setLoading(false);
