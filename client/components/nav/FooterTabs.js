@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
+import { Divider } from '@rneui/base';
 
-export const Tab = ({ name, icon }) => {
+export const Tab = ({ name, icon, handlePress }) => {
 	return (
 		<TouchableOpacity>
 			<>
@@ -14,6 +16,7 @@ export const Tab = ({ name, icon }) => {
 						alignSelf: 'center',
 						color: '#F76E11',
 					}}
+					onPress={handlePress}
 				/>
 				<Text>{name}</Text>
 			</>
@@ -21,21 +24,42 @@ export const Tab = ({ name, icon }) => {
 	);
 };
 
-const FooterTabs = (props) => {
+const FooterTabs = () => {
+	const navigation = useNavigation();
+
 	return (
-		<View style={styles.container}>
-			<Tab name="Home" icon="home" />
-			<Tab name="Post" icon="plus-circle" />
-			<Tab name="Links" icon="list-ul" />
-			<Tab name="Account" icon="user-cog" />
-		</View>
+		<>
+			<Divider />
+			<View style={styles.container}>
+				<Tab
+					name="Home"
+					icon="home"
+					handlePress={() => navigation.navigate('Home')}
+				/>
+				<Tab
+					name="Post"
+					icon="plus-circle"
+					handlePress={() => navigation.navigate('Post')}
+				/>
+				<Tab
+					name="Links"
+					icon="list-ul"
+					handlePress={() => navigation.navigate('Links')}
+				/>
+				<Tab
+					name="Account"
+					icon="user-cog"
+					handlePress={() => navigation.navigate('Account')}
+				/>
+			</View>
+		</>
 	);
 };
 
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
-		marginVertical: 12,
+		marginVertical: 8,
 		marginHorizontal: 30,
 		justifyContent: 'space-between',
 	},
