@@ -1,6 +1,7 @@
 import { useState, useEffect, createContext } from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API } from '../config';
 
 // creating context
 const AuthContext = createContext();
@@ -11,6 +12,9 @@ const AuthProvider = ({ children }) => {
 		user: null,
 		token: '',
 	});
+
+	// configure axios URL
+	axios.defaults.baseURL = API;
 
 	useEffect(() => {
 		// getting data from async storage

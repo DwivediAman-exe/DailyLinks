@@ -7,7 +7,6 @@ import Circlelogo from '../components/auth/Circlelogo';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../context/auth';
-import { API } from '../config';
 
 const Signin = ({ navigation }) => {
 	const [email, setEmail] = useState('');
@@ -27,7 +26,7 @@ const Signin = ({ navigation }) => {
 		}
 
 		try {
-			const { data } = await axios.post(`${API}/signin`, {
+			const { data } = await axios.post(`/signin`, {
 				email,
 				password,
 			});
