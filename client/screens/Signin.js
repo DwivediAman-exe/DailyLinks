@@ -5,6 +5,7 @@ import UserInput from '../components/auth/UserInput';
 import axios from 'axios';
 import Circlelogo from '../components/auth/Circlelogo';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { API } from '../config';
 
 const Signin = ({ navigation }) => {
 	const [email, setEmail] = useState('');
@@ -17,20 +18,29 @@ const Signin = ({ navigation }) => {
 		// validation
 		if (!email || !password) {
 			alert('Please fill all the required fields');
+			setLoading(false);
 			return;
 		}
 
 		try {
-			const { data } = await axios.post(
-				'http://localhost:8000/api/signin',
-				{ email, password }
-			);
-			console.log('SignIn successfull', data);
-			alert('Sign In successfull');
-			setLoading(false);
+			const { data } = await axios.post(`${API}/signin`, {
+				email,
+				password,
+			});
+
+			// if error
+			if (data.error) {
+				alert(data.error);
+				setLoading(false);
+			} else {
+				console.log('SignIn successfull', data);
+				alert('Sign In successfull');
+				setLoading(false);
+			}
 		} catch (err) {
-			setLoading(false);
 			console.log(err);
+			alert('Sign In failed! Try again.');
+			setLoading(false);
 		}
 	};
 
