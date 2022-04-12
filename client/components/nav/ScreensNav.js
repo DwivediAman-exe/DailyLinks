@@ -6,9 +6,9 @@ import Home from '../../screens/Home';
 import { AuthContext } from '../../context/auth';
 import HeaderTabs from './HeaderTabs';
 import Account from '../../screens/Account';
-import Post from '../../screens/Post';
 import Links from '../../screens/Links';
 import ForgotPassword from '../../screens/ForgotPassword';
+import PostLink from '../../screens/PostLink';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,8 +16,6 @@ export default function ScreensNav() {
 	const [state, setState] = useContext(AuthContext);
 
 	const authenticated = state && state.token !== '' && state.user !== null;
-
-	// console.log('Authenticated', authenticated);
 
 	return (
 		<Stack.Navigator initialRouteName="Signin">
@@ -41,17 +39,18 @@ export default function ScreensNav() {
 						}}
 					/>
 					<Stack.Screen
-						name="Post"
-						component={Post}
+						name="Links"
+						component={Links}
 						options={{
 							headerTitleAlign: 'center',
 							headerTintColor: '#247881',
 						}}
 					/>
 					<Stack.Screen
-						name="Links"
-						component={Links}
+						name="PostLink"
+						component={PostLink}
 						options={{
+							title: 'Post',
 							headerTitleAlign: 'center',
 							headerTintColor: '#247881',
 						}}

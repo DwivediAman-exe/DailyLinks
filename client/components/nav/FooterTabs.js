@@ -41,9 +41,9 @@ const FooterTabs = () => {
 				<Tab
 					text="Post"
 					name="plus-circle"
-					screenName="Post"
+					screenName="PostLink"
 					routeName={route.name}
-					handlePress={() => navigation.navigate('Post')}
+					handlePress={() => navigation.navigate('PostLink')}
 				/>
 				<Tab
 					text="Links"
