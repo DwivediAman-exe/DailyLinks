@@ -27,6 +27,7 @@ const Account = ({ navigation }) => {
 		setName(name);
 		setEmail(email);
 		setRole(role);
+		setImage(image);
 	}, [state]);
 
 	const handleSubmit = async () => {
@@ -93,7 +94,20 @@ const Account = ({ navigation }) => {
 		const { data } = await axios.post('/upload-image', {
 			image: base64Image,
 		});
-		console.log(data);
+
+		// fetch user and token from global context
+		const as = JSON.parse(await AsyncStorage.getItem('@auth'));
+		console.log(as);
+
+		//Updating user and saving back again in async sotrage
+		await AsyncStorage.setItem('@auth', JSON.stringify(as));
+
+		// updating global context
+		setState({ ...state, user: data });
+
+		// setting image
+		setImage(data.image);
+		alert('Profile image updated');
 	};
 
 	return (
