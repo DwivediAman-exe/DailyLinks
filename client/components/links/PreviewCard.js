@@ -25,7 +25,7 @@ const PreviewCard = ({
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: '#fff',
-		width: '95%',
+		width: '92%',
 		height: 300,
 		borderRadius: 14,
 		shadowColor: '#171717',
@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
 		elevation: 5,
 		marginBottom: 20,
 		paddingBottom: 2,
-		paddingHorizontal: 0,
 		alignItems: 'center',
 	},
 	image: {

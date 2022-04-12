@@ -36,7 +36,7 @@ const PostLink = () => {
 	};
 
 	const handleSubmit = () => {
-		console.log(title, link);
+		console.log(title, link, urlPreview);
 	};
 
 	return (
