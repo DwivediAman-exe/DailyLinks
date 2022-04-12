@@ -2,10 +2,25 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const { hashPassword, comparePassword } = require('../helpers/auth');
 const nanoid = require('nanoid');
+const expressJwt = require('express-jwt');
+const cloudinary = require('cloudinary');
 
 // sendgrid
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_KEY);
+
+// cloudinary
+cloudinary.config({
+	cloud_name: process.env.CLOUDINARY_NAME,
+	api_key: process.env.CLOUDINARY_KEY,
+	api_secret: process.env.CLOUDINARY_SECRET,
+});
+
+// middleware
+exports.requireSignin = expressJwt({
+	secret: process.env.JWT_SECRET,
+	algorithms: ['HS256'],
+});
 
 exports.signup = async (req, res) => {
 	console.log('HIT SIGNUP');
@@ -149,6 +164,36 @@ exports.resetPassword = async (req, res) => {
 		user.resetCode = '';
 		user.save();
 		return res.json({ ok: true });
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+exports.uploadImage = async (req, res) => {
+	try {
+		const result = await cloudinary.uploader.upload(req.body.image, {
+			public_id: nanoid(),
+			resource_type: 'jpg',
+		});
+
+		// updating user model
+		const user = await User.findByIdAndUpdate(
+			req.user._id,
+			{
+				image: {
+					public_id: result.public_id,
+					url: result.secure_url,
+				},
+			},
+			{ new: true }
+		);
+
+		return res.json({
+			name: user.name,
+			email: user.email,
+			role: user.role,
+			image: user.image,
+		});
 	} catch (err) {
 		console.log(err);
 	}
