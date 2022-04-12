@@ -142,12 +142,12 @@ exports.forgotPassword = async (req, res) => {
 		from: 'DailyLinks ✔" <noreply@gmail.com>',
 		to: `${email}`,
 		subject: 'Password Reset Request Code ✔',
-		text: 'Hello world?', // plain text body
-		html: `<h2>Your Password reset code is: ${resetCode}</h2>`,
+		html: `<h2>Enter this code in the app</h2>
+		<h3>Your Password reset code is: ${resetCode}</h3>`,
 	};
 
 	// send email
-	await transporter.sendMail(message, function (err, info) {
+	transporter.sendMail(message, function (err, info) {
 		if (err) {
 			console.log(err);
 			return res.json({ ok: false });
@@ -161,18 +161,22 @@ exports.forgotPassword = async (req, res) => {
 exports.resetPassword = async (req, res) => {
 	try {
 		const { email, password, resetCode } = req.body;
+
 		// find user based on email and resetCode
 		const user = await User.findOne({ email, resetCode });
+
 		// if user not found
 		if (!user) {
 			return res.json({ error: 'Email or reset code is invalid' });
 		}
+
 		// if password is short
 		if (!password || password.length < 6) {
 			return res.json({
 				error: 'Password is required and should be 6 characters long',
 			});
 		}
+
 		// hash password
 		const hashedPassword = await hashPassword(password);
 		user.password = hashedPassword;

@@ -12,6 +12,8 @@ const ForgotPassword = ({ navigation }) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
+	const [visible, setVisible] = useState(false);
+	const [resetCode, setResetCode] = useState('');
 
 	const [state, setState] = useContext(AuthContext);
 
@@ -33,14 +35,39 @@ const ForgotPassword = ({ navigation }) => {
 				alert(data.error);
 				setLoading(false);
 			} else {
-				console.log('reset password response', data);
 				alert('Enter the reset code sent in your email');
 				setLoading(false);
+				setVisible(true);
 			}
 		} catch (err) {
 			alert('Error sending Email! Try again');
 			console.log(error);
 			setLoading(false);
+		}
+	};
+
+	const handlePasswordReset = async () => {
+		setLoading(true);
+		try {
+			const { data } = await axios.post('/reset-password', {
+				email,
+				password,
+				resetCode,
+			});
+
+			if (data.error) {
+				alert(data.error);
+				setLoading(false);
+			} else {
+				alert(
+					'Password Reset successfully! Please Login with new Password'
+				);
+				navigation.navigate('Signin');
+			}
+		} catch (err) {
+			alert('Password reset failed! Try again');
+			console.log(err);
+			setLoading(true);
 		}
 	};
 
@@ -57,17 +84,27 @@ const ForgotPassword = ({ navigation }) => {
 					autoCompleteType="email"
 					keyboardType="email-address"
 				/>
-				{/* <UserInput
-					name="Password"
-					value={password}
-					setValue={setPassword}
-					secureTextEntry={true}
-					autoCompleteType="password"
-				/> */}
+				{visible && (
+					<>
+						<UserInput
+							name="New Password"
+							value={password}
+							setValue={setPassword}
+							secureTextEntry={true}
+							autoCompleteType="password"
+						/>
+						<UserInput
+							name="Password Reset Code"
+							value={resetCode}
+							setValue={setResetCode}
+							secureTextEntry={true}
+						/>
+					</>
+				)}
 
 				<SubmitButton
-					title="Request Reset"
-					handleSubmit={handleSubmit}
+					title={visible ? 'Reset Password' : 'Request Reset Code'}
+					handleSubmit={visible ? handlePasswordReset : handleSubmit}
 					loading={loading}
 				/>
 
