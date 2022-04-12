@@ -5,6 +5,7 @@ import FooterTabs from '../components/nav/FooterTabs';
 import SubmitButton from '../components/auth/SubmitButton';
 import ogs from '@uehreka/open-graph-scraper-react-native';
 import urlRegex from 'url-regex';
+import axios from 'axios';
 import PreviewCard from '../components/links/PreviewCard';
 
 const PostLink = () => {
@@ -20,7 +21,6 @@ const PostLink = () => {
 
 			if (urlRegex({ strict: false }).test(text)) {
 				ogs({ url: text }, (error, results, response) => {
-					// console.log(results);
 					if (results.success) {
 						setUrlPreview(results);
 					}
@@ -35,8 +35,23 @@ const PostLink = () => {
 		}
 	};
 
-	const handleSubmit = () => {
-		console.log(title, link, urlPreview);
+	const handleSubmit = async () => {
+		if (!link || !title) {
+			alert('Please enter a Url and give it a title');
+			return;
+		}
+
+		try {
+			const { data } = await axios.post('/post-link', {
+				title,
+				link,
+				urlPreview,
+			});
+
+			console.log(data);
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	return (
