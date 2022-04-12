@@ -102,11 +102,6 @@ const Signup = ({ navigation }) => {
 						Sign In
 					</Text>
 				</Text>
-
-				<Text style={styles.bottomtext}>
-					Forgot Password?{' '}
-					<Text style={styles.bottomtextchild}>Click here</Text>
-				</Text>
 			</View>
 		</KeyboardAwareScrollView>
 	);

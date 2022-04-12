@@ -8,7 +8,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../context/auth';
 
-const Signin = ({ navigation }) => {
+const ForgotPassword = ({ navigation }) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
@@ -18,40 +18,28 @@ const Signin = ({ navigation }) => {
 	const handleSubmit = async () => {
 		setLoading(true);
 
-		// validation
-		if (!email || !password) {
-			alert('Please fill all the required fields');
+		if (!email) {
+			alert('Email is required !');
 			setLoading(false);
 			return;
 		}
 
 		try {
-			const { data } = await axios.post(`/signin`, {
+			const { data } = await axios.post('/forgot-password', {
 				email,
-				password,
 			});
 
-			// if error
 			if (data.error) {
 				alert(data.error);
 				setLoading(false);
 			} else {
-				// save response data in async storage
-				await AsyncStorage.setItem('@auth', JSON.stringify(data));
-
-				// Update Global context
-				setState(data);
-
-				console.log('SignIn successfull', data);
-				alert('Sign In successfull');
+				console.log('reset password response', data);
+				alert('Enter the reset code sent in your email');
 				setLoading(false);
-
-				// redirect
-				navigation.navigate('Home');
 			}
 		} catch (err) {
-			console.log(err);
-			alert('Sign In failed! Try again.');
+			alert('Error sending Email! Try again');
+			console.log(error);
 			setLoading(false);
 		}
 	};
@@ -60,7 +48,7 @@ const Signin = ({ navigation }) => {
 		<KeyboardAwareScrollView contentContainerStyle={styles.container}>
 			<View>
 				<Circlelogo />
-				<Text style={styles.title}>Sign In</Text>
+				<Text style={styles.title}>Forgot Password</Text>
 
 				<UserInput
 					name="Email"
@@ -69,37 +57,27 @@ const Signin = ({ navigation }) => {
 					autoCompleteType="email"
 					keyboardType="email-address"
 				/>
-				<UserInput
+				{/* <UserInput
 					name="Password"
 					value={password}
 					setValue={setPassword}
 					secureTextEntry={true}
 					autoCompleteType="password"
-				/>
+				/> */}
 
 				<SubmitButton
-					title="signin"
+					title="Request Reset"
 					handleSubmit={handleSubmit}
 					loading={loading}
 				/>
 
 				<Text style={styles.bottomtext}>
-					Don't have a account?{' '}
+					Already a registered user?{' '}
 					<Text
 						style={styles.bottomtextchild}
-						onPress={() => navigation.navigate('Signup')}
+						onPress={() => navigation.navigate('Signin')}
 					>
-						Sign Up
-					</Text>
-				</Text>
-
-				<Text style={styles.bottomtext}>
-					Forgot Password?{' '}
-					<Text
-						onPress={() => navigation.navigate('ForgotPassword')}
-						style={styles.bottomtextchild}
-					>
-						Click here
+						Sign In
 					</Text>
 				</Text>
 			</View>
@@ -131,4 +109,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default Signin;
+export default ForgotPassword;

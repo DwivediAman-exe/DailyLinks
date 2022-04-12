@@ -5,9 +5,8 @@ const nanoid = require('nanoid');
 const expressJwt = require('express-jwt');
 const cloudinary = require('cloudinary');
 
-// sendgrid
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_KEY);
+// nodemailer
+const nodemailer = require('nodemailer');
 
 // cloudinary
 cloudinary.config({
@@ -114,33 +113,49 @@ exports.signin = async (req, res) => {
 
 exports.forgotPassword = async (req, res) => {
 	const { email } = req.body;
+
 	// find user by email
 	const user = await User.findOne({ email });
-	console.log('USER ===> ', user);
+
 	if (!user) {
 		return res.json({ error: 'User not found' });
 	}
+
 	// generate code
 	const resetCode = nanoid(5).toUpperCase();
+
 	// save to db
 	user.resetCode = resetCode;
 	user.save();
-	// prepare email
-	const emailData = {
-		from: process.env.EMAIL_FROM,
-		to: user.email,
-		subject: 'Password reset code',
-		html: '<h1>Your password  reset code is: {resetCode}</h1>',
+
+	// prepare transporter for nodemailer
+	let transporter = nodemailer.createTransport({
+		service: 'gmail',
+		auth: {
+			user: process.env.EMAIL_FROM,
+			pass: process.env.EMAIL_FROM_PASSWORD,
+		},
+	});
+
+	// prepare mail
+	const message = {
+		from: 'DailyLinks ✔" <noreply@gmail.com>',
+		to: `${email}`,
+		subject: 'Password Reset Request Code ✔',
+		text: 'Hello world?', // plain text body
+		html: `<h2>Your Password reset code is: ${resetCode}</h2>`,
 	};
+
 	// send email
-	try {
-		const data = await sgMail.send(emailData);
-		console.log(data);
-		res.json({ ok: true });
-	} catch (err) {
-		console.log(err);
-		res.json({ ok: false });
-	}
+	await transporter.sendMail(message, function (err, info) {
+		if (err) {
+			console.log(err);
+			return res.json({ ok: false });
+		} else {
+			// console.log(info);
+			return res.json({ ok: true });
+		}
+	});
 };
 
 exports.resetPassword = async (req, res) => {
@@ -194,6 +209,34 @@ exports.uploadImage = async (req, res) => {
 			role: user.role,
 			image: user.image,
 		});
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+exports.updatePassword = async (req, res) => {
+	try {
+		const { password } = req.body;
+
+		if (password && password.length < 6) {
+			return res.json({
+				error: 'Password is required and must be alteat 6 characters long',
+			});
+		} else {
+			const hashedPassword = await hashPassword(password);
+			const user = await User.findByIdAndUpdate(
+				req.user._id,
+				{
+					password: hashedPassword,
+				},
+				{ new: true }
+			);
+
+			user.password = undefined;
+			user.secret = undefined;
+
+			return res.json(user);
+		}
 	} catch (err) {
 		console.log(err);
 	}

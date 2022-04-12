@@ -33,40 +33,20 @@ const Account = ({ navigation }) => {
 	const handleSubmit = async () => {
 		setLoading(true);
 
-		// validation
-		if (!email || !password) {
-			alert('Please fill all the required fields');
-			setLoading(false);
-			return;
-		}
-
 		try {
-			const { data } = await axios.post(`/signin`, {
-				email,
-				password,
-			});
+			const { data } = await axios.post('/update-password', { password });
 
-			// if error
 			if (data.error) {
 				alert(data.error);
 				setLoading(false);
 			} else {
-				// save response data in async storage
-				await AsyncStorage.setItem('@auth', JSON.stringify(data));
-
-				// Update Global context
-				setState(data);
-
-				console.log('SignIn successfull', data);
-				alert('Sign In successfull');
+				alert('Password update successfully');
 				setLoading(false);
-
-				// redirect
-				navigation.navigate('Home');
+				setPassword('');
 			}
 		} catch (err) {
 			console.log(err);
-			alert('Sign In failed! Try again.');
+			alert('Password update failed! Try again.');
 			setLoading(false);
 		}
 	};
@@ -152,12 +132,14 @@ const Account = ({ navigation }) => {
 					<></>
 				)}
 
-				<Text style={styles.title}>{name}</Text>
-				<Text style={styles.subinfo}>{email}</Text>
-				<Text style={styles.subinfo}>{role}</Text>
+				<View>
+					<Text style={styles.title}>{name}</Text>
+					<Text style={styles.subinfo}>{email}</Text>
+					<Text style={styles.m}>{role}</Text>
+				</View>
 
 				<UserInput
-					name="Password"
+					name="Update Password"
 					value={password}
 					setValue={setPassword}
 					secureTextEntry={true}
@@ -180,23 +162,30 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	image: {
-		height: 190,
-		width: 190,
+		height: 180,
+		width: 180,
 		borderRadius: 100,
 	},
 	title: {
 		fontSize: 25,
 		alignSelf: 'center',
 		marginBottom: 8,
-		color: '#019267',
+		color: '#CC704B',
 		fontWeight: 'bold',
 	},
 	subinfo: {
-		color: '#A2D2FF',
+		color: '#CC704B',
 		fontWeight: 'bold',
 		alignSelf: 'center',
-		fontSize: 20,
+		fontSize: 16,
 		marginBottom: 8,
+	},
+	m: {
+		color: '#CC704B',
+		fontWeight: 'bold',
+		alignSelf: 'center',
+		fontSize: 16,
+		marginBottom: 40,
 	},
 });
 
