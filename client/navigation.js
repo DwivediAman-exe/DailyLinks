@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { AuthProvider } from './context/auth';
+import { LinkProvider } from './context/link';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ScreensNav from './components/nav/ScreensNav';
 
@@ -11,7 +12,9 @@ export default function RootNavigation() {
 		<NavigationContainer>
 			<SafeAreaProvider>
 				<AuthProvider>
-					<ScreensNav />
+					<LinkProvider>
+						<ScreensNav />
+					</LinkProvider>
 				</AuthProvider>
 			</SafeAreaProvider>
 		</NavigationContainer>

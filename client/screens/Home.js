@@ -3,9 +3,11 @@ import { Text, StyleSheet, View } from 'react-native';
 import { AuthContext } from '../context/auth';
 import FooterTabs from '../components/nav/FooterTabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinkContext } from '../context/link';
 
 const Home = () => {
 	const [state, setState] = useContext(AuthContext);
+	const [links, setLinks] = useContext(LinkContext);
 
 	return (
 		<SafeAreaView style={styles.container}>

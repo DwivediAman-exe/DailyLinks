@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, TextInput, Text } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import React, { useState, useContext } from 'react';
+import {
+	View,
+	StyleSheet,
+	ScrollView,
+	TextInput,
+	Text,
+	SafeAreaView,
+} from 'react-native';
 import FooterTabs from '../components/nav/FooterTabs';
 import SubmitButton from '../components/auth/SubmitButton';
 import ogs from '@uehreka/open-graph-scraper-react-native';
 import urlRegex from 'url-regex';
 import axios from 'axios';
 import PreviewCard from '../components/links/PreviewCard';
+import { LinkContext } from '../context/link';
 
-const PostLink = () => {
+const PostLink = ({ navigation }) => {
+	const [links, setLinks] = useContext(LinkContext);
 	const [link, setLink] = useState('');
 	const [title, setTitle] = useState('');
 	const [loading, setLoading] = useState(false);
@@ -48,14 +56,20 @@ const PostLink = () => {
 				urlPreview,
 			});
 
-			console.log(data);
+			setLinks({ data, ...links });
+
+			//update link context
+			setTimeout(() => {
+				alert('Link Posted successfully');
+				navigation.navigate('Home');
+			}, 500);
 		} catch (err) {
 			console.log(err);
 		}
 	};
 
 	return (
-		<SafeAreaProvider style={styles.container}>
+		<SafeAreaView style={styles.container}>
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<Text style={styles.title}>Paste Website URL</Text>
 
@@ -94,7 +108,7 @@ const PostLink = () => {
 			</ScrollView>
 
 			<FooterTabs />
-		</SafeAreaProvider>
+		</SafeAreaView>
 	);
 };
 
