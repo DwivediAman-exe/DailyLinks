@@ -69,7 +69,8 @@ export default function ScreensNav() {
 						name="Profile"
 						component={Profile}
 						options={({ route }) => ({
-							title: `${route.params.name}'s Profile`,
+							// title: `${route.params.name}'s Profile`,
+							title: 'Profile',
 							headerTitleAlign: 'center',
 							headerTintColor: '#247881',
 							// headerTransparent: true,

@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Link = require('../models/link');
 const jwt = require('jsonwebtoken');
 const { hashPassword, comparePassword } = require('../helpers/auth');
 const nanoid = require('nanoid');
@@ -248,11 +249,15 @@ exports.updatePassword = async (req, res) => {
 
 exports.userProfile = async (req, res) => {
 	try {
-		const user = await User.findById(req.params.userId).select(
+		const profile = await User.findById(req.params.userId).select(
 			'-password -secret'
 		);
 
-		return res.json(user);
+		const links = await Link.find({
+			postedBy: req.params.userId,
+		}).select('urlPreview views likes');
+
+		return res.json({ profile, links });
 	} catch (err) {
 		console.log(err);
 	}
