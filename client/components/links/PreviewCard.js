@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import axios from 'axios';
+import { LinkContext } from '../../context/link';
+import { AuthContext } from '../../context/auth';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const PreviewCard = ({
@@ -10,8 +13,27 @@ const PreviewCard = ({
 	link = {},
 	showIcons = false,
 }) => {
+	const [links, setLinks] = useContext(LinkContext);
+	const [auth, setAuth] = useContext(AuthContext);
+
 	const handleLikePress = async (link) => {
-		console.log('clicked', link._id);
+		// console.log("link clicked", link._id);
+		const { data } = await axios.put('/like', { linkId: link._id });
+		setLinks((links) => {
+			const index = links.findIndex((l) => l._id === link._id);
+			links[index] = data;
+			return [...links];
+		});
+	};
+
+	const handleUnLikePress = async (link) => {
+		// console.log("link clicked", link._id);
+		const { data } = await axios.put('/unlike', { linkId: link._id });
+		setLinks((links) => {
+			const index = links.findIndex((l) => l._id === link._id);
+			links[index] = data;
+			return [...links];
+		});
 	};
 
 	return (
@@ -29,17 +51,31 @@ const PreviewCard = ({
 						<Text style={styles.text}>{link.views}</Text>
 					</View>
 
-					<TouchableOpacity
-						style={styles.heart}
-						onPress={() => handleLikePress(link)}
-					>
-						<FontAwesome5
-							name="heart"
-							style={styles.icon}
-							size={18}
-						/>
-						<Text style={styles.text}>{link.likes.length}</Text>
-					</TouchableOpacity>
+					{link?.likes?.includes(auth?.user?._id) ? (
+						<TouchableOpacity
+							style={styles.heart}
+							onPress={() => handleUnLikePress(link)}
+						>
+							<FontAwesome5
+								name="heart"
+								style={styles.icon}
+								size={18}
+							/>
+							<Text style={styles.text}>{link.likes.length}</Text>
+						</TouchableOpacity>
+					) : (
+						<TouchableOpacity
+							style={styles.heart}
+							onPress={() => handleLikePress(link)}
+						>
+							<FontAwesome5
+								name="hand-holding-heart"
+								style={styles.icon}
+								size={18}
+							/>
+							<Text style={styles.text}>{link.likes.length}</Text>
+						</TouchableOpacity>
+					)}
 				</>
 			)}
 
