@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-	View,
-	StyleSheet,
-	Text,
-	ScrollView,
-	SafeAreaView,
-	ActivityIndicator,
-} from 'react-native';
-import FooterTabs from '../components/nav/FooterTabs';
+import { StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 const LinkView = ({ route }) => {

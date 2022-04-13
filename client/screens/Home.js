@@ -29,7 +29,8 @@ const Home = ({ navigation }) => {
 		}
 	};
 
-	const handlePress = (link) => {
+	const handlePress = async (link) => {
+		await axios.put(`/view-count/${link._id}`);
 		navigation.navigate('LinkView', { link });
 	};
 

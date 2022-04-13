@@ -21,3 +21,19 @@ exports.links = async (req, res) => {
 		console.log(err);
 	}
 };
+
+exports.viewCount = async (req, res) => {
+	try {
+		const link = await Link.findByIdAndUpdate(
+			req.params.linkId,
+			{
+				$inc: { views: 1 },
+			},
+			{ new: true }
+		);
+
+		res.json({ ok: true });
+	} catch (err) {
+		console.log(err);
+	}
+};
