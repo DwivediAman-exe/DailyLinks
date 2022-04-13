@@ -37,3 +37,35 @@ exports.viewCount = async (req, res) => {
 		console.log(err);
 	}
 };
+
+exports.like = async (req, res) => {
+	try {
+		const link = await Link.findByIdAndUpdate(
+			req.body.linkId,
+			{
+				$addToSet: { likes: req.user._id },
+			},
+			{ new: true }
+		);
+
+		res.json(link);
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+exports.unlike = async (req, res) => {
+	try {
+		const link = await Link.findByIdAndUpdate(
+			req.body.linkId,
+			{
+				$pull: { likes: req.user._id },
+			},
+			{ new: true }
+		);
+
+		res.json(link);
+	} catch (err) {
+		console.log(err);
+	}
+};

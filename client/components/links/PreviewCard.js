@@ -10,6 +10,10 @@ const PreviewCard = ({
 	link = {},
 	showIcons = false,
 }) => {
+	const handleLikePress = async (link) => {
+		console.log('clicked', link._id);
+	};
+
 	return (
 		<View style={styles.container}>
 			<Image style={styles.image} source={{ uri: ogImage.url }} />
@@ -25,7 +29,10 @@ const PreviewCard = ({
 						<Text style={styles.text}>{link.views}</Text>
 					</View>
 
-					<TouchableOpacity style={styles.heart}>
+					<TouchableOpacity
+						style={styles.heart}
+						onPress={() => handleLikePress(link)}
+					>
 						<FontAwesome5
 							name="heart"
 							style={styles.icon}
