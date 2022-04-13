@@ -245,3 +245,15 @@ exports.updatePassword = async (req, res) => {
 		console.log(err);
 	}
 };
+
+exports.userProfile = async (req, res) => {
+	try {
+		const user = await User.findById(req.params.userId).select(
+			'-password -secret'
+		);
+
+		return res.json(user);
+	} catch (err) {
+		console.log(err);
+	}
+};

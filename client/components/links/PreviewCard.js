@@ -9,7 +9,9 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 const PreviewCard = ({
 	ogTitle = 'Untitled',
 	ogDescription = 'No description found...',
-	ogImage = 'https://via.placeholder.com/500x500.png?text=NoPreviewImage',
+	ogImage = {
+		url: 'https://via.placeholder.com/500x500.png?text=NoPreviewImage',
+	},
 	handlePress = (f) => f,
 	link = {},
 	showIcons = false,
@@ -22,6 +24,7 @@ const PreviewCard = ({
 		const { data } = await axios.put('/like', { linkId: link._id });
 		setLinks((links) => {
 			const index = links.findIndex((l) => l._id === link._id);
+			data.postedBy = auth.user;
 			links[index] = data;
 			return [...links];
 		});
@@ -32,14 +35,25 @@ const PreviewCard = ({
 		const { data } = await axios.put('/unlike', { linkId: link._id });
 		setLinks((links) => {
 			const index = links.findIndex((l) => l._id === link._id);
+			data.postedBy = auth.user;
 			links[index] = data;
 			return [...links];
 		});
 	};
 
+	const ogImageUrl = (ogImage) => {
+		if (ogImage?.url) {
+			return ogImage.url;
+		} else if (ogImage?.length > 0) {
+			return ogImage[0].url;
+		} else {
+			return 'https://via.placeholder.com/500x500.png?text=Image';
+		}
+	};
+
 	return (
 		<View style={styles.container}>
-			<Image style={styles.image} source={{ uri: ogImage.url }} />
+			<Image style={styles.image} source={{ uri: ogImageUrl(ogImage) }} />
 
 			<IconSet
 				handleLikePress={handleLikePress}

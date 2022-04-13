@@ -15,7 +15,10 @@ exports.postLink = async (req, res) => {
 
 exports.links = async (req, res) => {
 	try {
-		const all = await Link.find().sort({ createdAt: -1 }).limit(500);
+		const all = await Link.find()
+			.populate('postedBy', '_id name')
+			.sort({ createdAt: -1 })
+			.limit(500);
 		res.json(all);
 	} catch (err) {
 		console.log(err);

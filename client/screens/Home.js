@@ -41,7 +41,7 @@ const Home = ({ navigation }) => {
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<Text style={styles.title}>Recent Links</Text>
 
-				{links &&
+				{links.length > 0 &&
 					links.map((link) => (
 						<View key={link._id} style={styles.linkscontainer}>
 							<PreviewCard

@@ -10,6 +10,7 @@ import Links from '../../screens/Links';
 import ForgotPassword from '../../screens/ForgotPassword';
 import PostLink from '../../screens/PostLink';
 import LinkView from '../../screens/LinkView';
+import Profile from '../../screens/Profile';
 
 const Stack = createNativeStackNavigator();
 
@@ -63,6 +64,16 @@ export default function ScreensNav() {
 							title: '',
 							headerTintColor: '#247881',
 						}}
+					/>
+					<Stack.Screen
+						name="Profile"
+						component={Profile}
+						options={({ route }) => ({
+							title: `${route.params.name}'s Profile`,
+							headerTitleAlign: 'center',
+							headerTintColor: '#247881',
+							// headerTransparent: true,
+						})}
 					/>
 				</>
 			) : (
