@@ -74,18 +74,18 @@ const PostLink = ({ navigation }) => {
 				<Text style={styles.title}>Paste Website URL</Text>
 
 				<TextInput
-					placeholder="Give it a title"
-					autoCapitalize="sentences"
-					value={title}
-					onChangeText={(text) => setTitle(text)}
-					style={styles.inputlink}
-				/>
-				<TextInput
 					placeholder="Paste the url here"
 					autoCapitalize="none"
 					autoCorrect={false}
 					value={link}
 					onChangeText={(text) => handleChange(text)}
+					style={styles.inputlink}
+				/>
+				<TextInput
+					placeholder="Give it a title"
+					autoCapitalize="sentences"
+					value={title}
+					onChangeText={(text) => setTitle(text)}
 					style={styles.inputlink}
 				/>
 

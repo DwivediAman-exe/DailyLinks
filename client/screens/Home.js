@@ -21,17 +21,19 @@ const Home = ({ navigation }) => {
 	}, []);
 
 	const fetchLinks = async () => {
-		try {
-			const { data } = await axios.get('/links');
-			setLinks(data);
-		} catch (err) {
-			console.log(err);
-		}
+		const { data } = await axios.get('/links');
+		setLinks(data);
 	};
 
 	const handlePress = async (link) => {
 		await axios.put(`/view-count/${link._id}`);
 		navigation.navigate('LinkView', { link });
+		// update link in the context
+		setLinks(() => {
+			const index = links.findIndex((l) => l._id === link._id);
+			links[index] = { ...link, views: link.views + 1 };
+			return [...links];
+		});
 	};
 
 	return (
@@ -46,6 +48,7 @@ const Home = ({ navigation }) => {
 								{...link.urlPreview}
 								handlePress={handlePress}
 								link={link}
+								showIcons={true}
 							/>
 						</View>
 					))}

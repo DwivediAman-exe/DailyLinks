@@ -17,7 +17,7 @@ const HeaderTabs = (props) => {
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity onPress={signOut}>
-				<FontAwesome5 name="sign-out-alt" size={25} color="#ff9900" />
+				<FontAwesome5 name="sign-out-alt" size={25} color="#D6D2C4" />
 			</TouchableOpacity>
 		</View>
 	);
