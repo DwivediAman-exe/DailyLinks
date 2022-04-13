@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import axios from 'axios';
 import { LinkContext } from '../../context/link';
 import { AuthContext } from '../../context/auth';
+import IconSet from '../../components/links/IconSet';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const PreviewCard = ({
@@ -40,44 +41,13 @@ const PreviewCard = ({
 		<View style={styles.container}>
 			<Image style={styles.image} source={{ uri: ogImage.url }} />
 
-			{showIcons && (
-				<>
-					<View style={styles.eye}>
-						<FontAwesome5
-							name="eye"
-							style={styles.icon}
-							size={18}
-						/>
-						<Text style={styles.text}>{link.views}</Text>
-					</View>
-
-					{link?.likes?.includes(auth?.user?._id) ? (
-						<TouchableOpacity
-							style={styles.heart}
-							onPress={() => handleUnLikePress(link)}
-						>
-							<FontAwesome5
-								name="heart"
-								style={styles.icon}
-								size={18}
-							/>
-							<Text style={styles.text}>{link.likes.length}</Text>
-						</TouchableOpacity>
-					) : (
-						<TouchableOpacity
-							style={styles.heart}
-							onPress={() => handleLikePress(link)}
-						>
-							<FontAwesome5
-								name="hand-holding-heart"
-								style={styles.icon}
-								size={18}
-							/>
-							<Text style={styles.text}>{link.likes.length}</Text>
-						</TouchableOpacity>
-					)}
-				</>
-			)}
+			<IconSet
+				handleLikePress={handleLikePress}
+				handleUnLikePress={handleUnLikePress}
+				link={link}
+				showIcons={showIcons}
+				auth={auth}
+			/>
 
 			<TouchableOpacity onPress={() => handlePress(link)}>
 				<View style={{ padding: 5, height: 150 }}>

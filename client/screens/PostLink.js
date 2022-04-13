@@ -17,6 +17,7 @@ import { LinkContext } from '../context/link';
 
 const PostLink = ({ navigation }) => {
 	const [links, setLinks] = useContext(LinkContext);
+	// state
 	const [link, setLink] = useState('');
 	const [title, setTitle] = useState('');
 	const [loading, setLoading] = useState(false);
@@ -29,6 +30,7 @@ const PostLink = ({ navigation }) => {
 
 			if (urlRegex({ strict: false }).test(text)) {
 				ogs({ url: text }, (error, results, response) => {
+					// console.log(results);
 					if (results.success) {
 						setUrlPreview(results);
 					}
@@ -45,22 +47,19 @@ const PostLink = ({ navigation }) => {
 
 	const handleSubmit = async () => {
 		if (!link || !title) {
-			alert('Please enter a Url and give it a title');
+			alert('Paste url and give it a nice title 😎');
 			return;
 		}
-
 		try {
 			const { data } = await axios.post('/post-link', {
-				title,
 				link,
+				title,
 				urlPreview,
 			});
 
-			setLinks({ data, ...links });
-
-			//update link context
+			setLinks([data, ...links]);
 			setTimeout(() => {
-				alert('Link Posted successfully');
+				alert('🎊 Link posted');
 				navigation.navigate('Home');
 			}, 500);
 		} catch (err) {
