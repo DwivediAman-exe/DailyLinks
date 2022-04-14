@@ -30,7 +30,9 @@ const IconSet = ({
 								style={styles.icon}
 								size={18}
 							/>
-							<Text style={styles.text}>{link.likes.length}</Text>
+							<Text style={styles.text}>
+								{link?.likes?.length}
+							</Text>
 						</TouchableOpacity>
 					) : (
 						<TouchableOpacity
@@ -42,7 +44,9 @@ const IconSet = ({
 								style={styles.icon}
 								size={18}
 							/>
-							<Text style={styles.text}>{link.likes.length}</Text>
+							<Text style={styles.text}>
+								{link?.likes?.length}
+							</Text>
 						</TouchableOpacity>
 					)}
 
