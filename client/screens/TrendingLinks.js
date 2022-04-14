@@ -12,6 +12,23 @@ import { LinkContext } from '../context/link';
 import axios from 'axios';
 import PreviewCard from '../components/links/PreviewCard';
 
+const RenderLinks = ({ links, handlePress }) => {
+	return (
+		<ScrollView horizontal showsHorizontalScrollIndicator={false}>
+			{links.map((link) => (
+				<View key={link._id} style={styles.linkscontainer}>
+					<PreviewCard
+						{...link.urlPreview}
+						handlePress={handlePress}
+						link={link}
+						showIcons={true}
+					/>
+				</View>
+			))}
+		</ScrollView>
+	);
+};
+
 const TrendingLinks = ({ navigation }) => {
 	const [state, setState] = useContext(AuthContext);
 	const [links, setLinks] = useContext(LinkContext);
@@ -45,55 +62,42 @@ const TrendingLinks = ({ navigation }) => {
 		>
 			<View style={styles.container}>
 				<ScrollView showsVerticalScrollIndicator={false}>
-					<Text style={styles.title}>Trending Links</Text>
-					<ScrollView
-						horizontal
-						showsHorizontalScrollIndicator={false}
-					>
-						{links &&
+					<Text style={styles.title}>Most Viewed</Text>
+					<RenderLinks
+						links={
+							links &&
 							links
 								.sort((a, b) => (b.views > a.views ? 1 : -1))
 								.slice(0, 10)
-								.map((link) => (
-									<View
-										key={link._id}
-										style={styles.linkscontainer}
-									>
-										<PreviewCard
-											{...link.urlPreview}
-											handlePress={handlePress}
-											link={link}
-											showIcons={true}
-										/>
-									</View>
-								))}
-					</ScrollView>
+						}
+						handlePress={handlePress}
+					/>
 
 					<Text style={styles.title}>Most Liked</Text>
-					<ScrollView
-						horizontal
-						showsHorizontalScrollIndicator={false}
-					>
-						{links &&
+					<RenderLinks
+						links={
+							links &&
 							links
 								.sort((a, b) =>
 									b.likes.length > a.likes.length ? 1 : -1
 								)
 								.slice(0, 10)
-								.map((link) => (
-									<View
-										key={link._id}
-										style={styles.linkscontainer}
-									>
-										<PreviewCard
-											{...link.urlPreview}
-											handlePress={handlePress}
-											link={link}
-											showIcons={true}
-										/>
-									</View>
-								))}
-					</ScrollView>
+						}
+						handlePress={handlePress}
+					/>
+
+					<Text style={styles.title}>Latest Links</Text>
+					<RenderLinks
+						links={
+							links &&
+							links
+								.sort((a, b) =>
+									b.createdAt > a.createdAt ? 1 : -1
+								)
+								.slice(0, 10)
+						}
+						handlePress={handlePress}
+					/>
 				</ScrollView>
 
 				<FooterTabs />
@@ -114,6 +118,7 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		alignSelf: 'center',
 		marginVertical: 20,
+		paddingTop: 10,
 	},
 	linkscontainer: {
 		alignItems: 'center',
