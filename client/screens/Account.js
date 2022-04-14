@@ -54,40 +54,44 @@ const Account = ({ navigation }) => {
 	const handleUpload = async () => {
 		let permissionResult =
 			await ImagePicker.requestMediaLibraryPermissionsAsync();
-
+		// console.log(permissionResult);
+		// return;
 		if (permissionResult.granted === false) {
 			alert('Camera access is required');
 			return;
 		}
-
+		// get image from image
 		let pickerResult = await ImagePicker.launchImageLibraryAsync({
 			allowsEditing: true,
 			aspect: [4, 3],
 			base64: true,
 		});
-
-		if (pickerResult.cancelled === true) return;
-
+		// console.log("PICKER RESULT => ", pickerResult);
+		if (pickerResult.cancelled === true) {
+			return;
+		}
+		// save to state for preview
 		let base64Image = `data:image/jpg;base64,${pickerResult.base64}`;
 		setUploadImage(base64Image);
+		// send to backend for uploading to cloudinary
 
 		const { data } = await axios.post('/upload-image', {
 			image: base64Image,
 		});
-
-		// fetch user and token from global context
-		const as = JSON.parse(await AsyncStorage.getItem('@auth'));
-		console.log(as);
-
-		//Updating user and saving back again in async sotrage
+		console.log('UPLOADED RESPONSE => ', data);
+		// update async storage
+		const as = JSON.parse(await AsyncStorage.getItem('@auth')); // {user: {}, token: ''}
+		as.user = data;
 		await AsyncStorage.setItem('@auth', JSON.stringify(as));
-
-		// updating global context
+		// update context
 		setState({ ...state, user: data });
-
-		// setting image
 		setImage(data.image);
-		alert('Profile image updated');
+		alert('👍 Profile image saved');
+	};
+
+	const signOut = async () => {
+		setState({ user: null, token: '' });
+		await AsyncStorage.removeItem('@auth');
 	};
 
 	return (
@@ -151,6 +155,12 @@ const Account = ({ navigation }) => {
 					handleSubmit={handleSubmit}
 					loading={loading}
 				/>
+
+				<SubmitButton
+					title="Sign Out"
+					handleSubmit={signOut}
+					loading={loading}
+				/>
 			</View>
 		</KeyboardAwareScrollView>
 	);
@@ -158,7 +168,6 @@ const Account = ({ navigation }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
 		justifyContent: 'center',
 	},
 	image: {
