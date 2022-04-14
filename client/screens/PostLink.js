@@ -128,6 +128,8 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 		marginVertical: 10,
 		borderRadius: 100,
+		borderColor: '#d9d9d9',
+		backgroundColor: '#e6e6e6',
 	},
 });
 

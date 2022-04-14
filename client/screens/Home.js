@@ -1,23 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {
-	Text,
-	StyleSheet,
-	View,
-	ScrollView,
-	TouchableOpacity,
-} from 'react-native';
+import { Text, StyleSheet, View, ScrollView } from 'react-native';
 import { AuthContext } from '../context/auth';
 import FooterTabs from '../components/nav/FooterTabs';
 import { LinkContext } from '../context/link';
 import axios from 'axios';
 import SubmitButton from '../components/auth/SubmitButton';
 import PreviewCard from '../components/links/PreviewCard';
+import Search from '../components/links/Search';
 
 const Home = ({ navigation }) => {
 	const [state, setState] = useContext(AuthContext);
 	const [links, setLinks] = useContext(LinkContext);
 	const [page, setPage] = useState(1);
 	const [linksCount, setLinksCount] = useState(0);
+	const [keyword, setKeyword] = useState('');
 
 	useEffect(() => {
 		fetchLinks();
@@ -47,13 +43,20 @@ const Home = ({ navigation }) => {
 		});
 	};
 
+	const searched = (keyword) => (item) => {
+		return item.urlPreview.ogTitle
+			.toLowerCase()
+			.includes(keyword.toLowerCase());
+	};
+
 	return (
 		<View style={styles.container}>
+			<Search value={keyword} setValue={setKeyword} />
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<Text style={styles.title}>Recent Links</Text>
 
-				{links.length > 0 &&
-					links.map((link) => (
+				{links &&
+					links.filter(searched(keyword)).map((link) => (
 						<View key={link._id} style={styles.linkscontainer}>
 							<PreviewCard
 								{...link.urlPreview}

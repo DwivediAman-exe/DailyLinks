@@ -19,7 +19,7 @@ const LinkView = ({ route }) => {
 		return (
 			<ActivityIndicator
 				color="#009688"
-				size={40}
+				size={60}
 				style={styles.activityIndicatorStyle}
 			/>
 		);

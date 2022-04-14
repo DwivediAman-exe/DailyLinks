@@ -17,12 +17,13 @@ import dayjs from 'dayjs';
 import { Divider } from '@rneui/base';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-const Profile = ({ navigation }) => {
+const Profile = () => {
 	const [auth, setAuth] = useContext(AuthContext);
 	const [links, setLinks] = useContext(LinkContext);
 
 	const [userProfile, setUserProfile] = useState({});
 	const [userLinks, setUserLinks] = useState([]);
+	const [loading, setLoading] = useState(true);
 
 	dayjs.extend(relativeTime);
 
@@ -36,6 +37,9 @@ const Profile = ({ navigation }) => {
 				// console.log(data);
 				setUserProfile(data.profile);
 				setUserLinks(data.links);
+				setTimeout(() => {
+					setLoading(false);
+				}, 1000);
 			} catch (err) {
 				console.log(err);
 			}
@@ -68,6 +72,24 @@ const Profile = ({ navigation }) => {
 			alert('🐸 Delete failed');
 		}
 	};
+
+	if (loading) {
+		return (
+			<View
+				style={{
+					height: '100%',
+					alignItems: 'center',
+					justifyContent: 'center',
+					backgroundColor: '#fff',
+				}}
+			>
+				<Image
+					source={require('../assets/loading.gif')}
+					style={styles.loading}
+				/>
+			</View>
+		);
+	}
 
 	return (
 		<ImageBackground
@@ -140,6 +162,10 @@ const styles = StyleSheet.create({
 	background: {
 		flex: 1,
 		height: '100%',
+	},
+	loading: {
+		height: 100,
+		width: 100,
 	},
 	image: {
 		height: 180,
