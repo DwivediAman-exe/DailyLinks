@@ -2,22 +2,19 @@ import React, { useContext } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { AuthContext } from '../../context/auth';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 const HeaderTabs = (props) => {
 	const [state, setState] = useContext(AuthContext);
 
-	const signOut = async () => {
-		// removing user and token from Global context and Asyncstorage
-		setState({ token: '', user: null });
-
-		await AsyncStorage.removeItem('@auth');
-	};
+	const navigation = useNavigation();
 
 	return (
 		<View style={styles.container}>
-			<TouchableOpacity onPress={signOut}>
-				<FontAwesome5 name="sign-out-alt" size={25} color="#D6D2C4" />
+			<TouchableOpacity
+				onPress={() => navigation.navigate('TrendingLinks')}
+			>
+				<FontAwesome5 name="bell" size={25} color="#ff9900" />
 			</TouchableOpacity>
 		</View>
 	);

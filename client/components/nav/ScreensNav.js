@@ -11,6 +11,7 @@ import ForgotPassword from '../../screens/ForgotPassword';
 import PostLink from '../../screens/PostLink';
 import LinkView from '../../screens/LinkView';
 import Profile from '../../screens/Profile';
+import TrendingLinks from '../../screens/TrendingLinks';
 
 const Stack = createNativeStackNavigator();
 
@@ -75,6 +76,14 @@ export default function ScreensNav() {
 							headerTintColor: '#247881',
 							// headerTransparent: true,
 						})}
+					/>
+					<Stack.Screen
+						name="TrendingLinks"
+						component={TrendingLinks}
+						options={{
+							title: '',
+							headerTintColor: '#247881',
+						}}
 					/>
 				</>
 			) : (
