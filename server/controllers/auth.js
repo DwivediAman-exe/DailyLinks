@@ -255,7 +255,9 @@ exports.userProfile = async (req, res) => {
 
 		const links = await Link.find({
 			postedBy: req.params.userId,
-		}).select('urlPreview views likes');
+		})
+			.populate('postedBy', '_id')
+			.select('urlPreview views likes');
 
 		return res.json({ profile, links });
 	} catch (err) {

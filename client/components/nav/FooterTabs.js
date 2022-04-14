@@ -50,7 +50,7 @@ const FooterTabs = () => {
 					name="list-ul"
 					screenName="Links"
 					routeName={route.name}
-					handlePress={() => navigation.navigate('Links')}
+					handlePress={() => navigation.navigate('Profile')}
 				/>
 				<Tab
 					text="Account"

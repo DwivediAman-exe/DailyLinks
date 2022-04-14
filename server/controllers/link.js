@@ -71,3 +71,15 @@ exports.unlike = async (req, res) => {
 		console.log(err);
 	}
 };
+
+exports.linkDelete = async (req, res) => {
+	try {
+		const link = await Link.findById(req.params.linkId).select('postedBy');
+		if (link.postedBy._id.toString() === req.user._id.toString()) {
+			const deleted = await Link.findByIdAndRemove(req.params.linkId);
+			res.json(deleted);
+		}
+	} catch (err) {
+		console.log(err);
+	}
+};

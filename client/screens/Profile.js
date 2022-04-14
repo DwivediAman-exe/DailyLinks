@@ -15,10 +15,11 @@ import { useRoute } from '@react-navigation/native';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
 import { Divider } from '@rneui/base';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const Profile = ({ navigation }) => {
 	const [auth, setAuth] = useContext(AuthContext);
-	const [link, setLink] = useContext(LinkContext);
+	const [links, setLinks] = useContext(LinkContext);
 
 	const [userProfile, setUserProfile] = useState({});
 	const [userLinks, setUserLinks] = useState([]);
@@ -26,22 +27,47 @@ const Profile = ({ navigation }) => {
 	dayjs.extend(relativeTime);
 
 	const route = useRoute();
+	const routeParamsId = route?.params?._id;
 
 	useEffect(() => {
-		const fetchUserProfile = async () => {
+		const fetchUserProfile = async (userId) => {
 			try {
-				const { data } = await axios.get(
-					`/user-profile/${route.params._id}`
-				);
-				console.log(data);
+				const { data } = await axios.get(`/user-profile/${userId}`);
+				// console.log(data);
 				setUserProfile(data.profile);
 				setUserLinks(data.links);
 			} catch (err) {
 				console.log(err);
 			}
 		};
-		fetchUserProfile();
+		routeParamsId
+			? fetchUserProfile(routeParamsId)
+			: fetchUserProfile(auth.user._id);
 	}, []);
+
+	const handleDelete = async (linkId) => {
+		// console.log("delete", linkId);
+		try {
+			const { data } = await axios.delete(`/link-delete/${linkId}`);
+			console.log('data', data);
+			// update userLinks
+			setUserLinks((links) => {
+				const index = userLinks.findIndex((l) => l._id === linkId);
+				userLinks.splice(index, 1);
+				return [...links];
+			});
+			// update context
+			setLinks((links) => {
+				const index = links.findIndex((l) => l._id === linkId);
+				links.splice(index, 1);
+				return [...links];
+			});
+			alert('🐸 Deleted successfully!');
+		} catch (err) {
+			console.log(err);
+			alert('🐸 Delete failed');
+		}
+	};
 
 	return (
 		<ImageBackground
@@ -76,8 +102,28 @@ const Profile = ({ navigation }) => {
 
 					{userLinks?.map((link) => (
 						<View key={link._id} style={styles.container1}>
-							<Text>✔ Views - {link?.views}</Text>
 							<Text>Title - {link?.urlPreview?.ogTitle}</Text>
+							<View
+								style={{
+									flexDirection: 'row',
+									justifyContent: 'space-between',
+									alignItems: 'center',
+								}}
+							>
+								<Text>✔ Views - {link?.views}</Text>
+								{auth?.user?._id === link?.postedBy?._id && (
+									<TouchableOpacity
+										onPress={() => handleDelete(link._id)}
+									>
+										<FontAwesome5
+											size={15}
+											name="trash"
+											color="#ff9900"
+											style={{ paddingLeft: 10 }}
+										/>
+									</TouchableOpacity>
+								)}
+							</View>
 						</View>
 					))}
 				</ScrollView>

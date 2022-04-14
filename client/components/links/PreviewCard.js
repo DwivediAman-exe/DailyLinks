@@ -4,7 +4,6 @@ import axios from 'axios';
 import { LinkContext } from '../../context/link';
 import { AuthContext } from '../../context/auth';
 import IconSet from '../../components/links/IconSet';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const PreviewCard = ({
 	ogTitle = 'Untitled',
