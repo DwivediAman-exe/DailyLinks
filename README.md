@@ -30,4 +30,4 @@
 # Demo Images :
 
 ## Signup Page 
-![Signup](https://github.com/born69confused/DailyLinks/blob/master/Demo%20Images/Signup%20screen.jpg)
+<img src="https://github.com/born69confused/DailyLinks/blob/master/Demo%20Images/Signup%20screen.jpg" width="300" height="600">
