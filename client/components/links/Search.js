@@ -4,22 +4,17 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const Search = ({ value, setValue }) => {
 	return (
-		<View style={styles.container}>
-			<TextInput
-				style={styles.input}
-				value={value}
-				onChangeText={(text) => setValue(text)}
-				placeholder="Search Links"
-				autoCapitalize="none"
-			></TextInput>
-		</View>
+		<TextInput
+			style={styles.input}
+			value={value}
+			onChangeText={(text) => setValue(text)}
+			placeholder="Search Links"
+			autoCapitalize="none"
+		></TextInput>
 	);
 };
 
 const styles = StyleSheet.create({
-	container: {
-		borderRadius: 100,
-	},
 	input: {
 		height: 50,
 		paddingHorizontal: 20,

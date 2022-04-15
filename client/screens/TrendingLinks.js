@@ -55,13 +55,16 @@ const TrendingLinks = ({ navigation }) => {
 
 	return (
 		<ImageBackground
-			source={require('../assets/background.jpg')}
+			source={require('../assets/loginbackground.png')}
 			style={styles.background}
 			blurRadius={2}
 			resizeMode="cover"
 		>
 			<View style={styles.container}>
-				<ScrollView showsVerticalScrollIndicator={false}>
+				<ScrollView
+					showsVerticalScrollIndicator={false}
+					style={styles.container1}
+				>
 					<Text style={styles.title}>Most Viewed</Text>
 					<RenderLinks
 						links={
@@ -114,11 +117,15 @@ const styles = StyleSheet.create({
 		flex: 1,
 		height: '100%',
 	},
+	container1: {
+		marginBottom: 15,
+	},
 	title: {
 		fontSize: 20,
 		alignSelf: 'center',
 		marginVertical: 20,
 		paddingTop: 10,
+		color: '#86C6F4',
 	},
 	linkscontainer: {
 		alignItems: 'center',

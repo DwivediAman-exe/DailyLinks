@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, ImageBackground } from 'react-native';
 import SubmitButton from '../components/auth/SubmitButton';
 import UserInput from '../components/auth/UserInput';
 import axios from 'axios';
@@ -59,51 +59,58 @@ const Signup = ({ navigation }) => {
 	};
 
 	return (
-		<KeyboardAwareScrollView contentContainerStyle={styles.container}>
-			<View>
-				<Circlelogo />
-				<Text style={styles.title}>Sign Up</Text>
+		<ImageBackground
+			source={require('../assets/loginbackground.png')}
+			style={styles.background}
+			blurRadius={1}
+			resizeMode="cover"
+		>
+			<KeyboardAwareScrollView contentContainerStyle={styles.container}>
+				<View>
+					<Circlelogo />
+					<Text style={styles.title}>Sign Up</Text>
 
-				<UserInput
-					name="Name"
-					value={name}
-					setValue={setName}
-					autoCapitalize="words"
-					autoCorrect={false}
-					autoCompleteType="name"
-				/>
-				<UserInput
-					name="Email"
-					value={email}
-					setValue={setEmail}
-					autoCompleteType="email"
-					keyboardType="email-address"
-				/>
-				<UserInput
-					name="Password"
-					value={password}
-					setValue={setPassword}
-					secureTextEntry={true}
-					autoCompleteType="password"
-				/>
+					<UserInput
+						name="Name"
+						value={name}
+						setValue={setName}
+						autoCapitalize="words"
+						autoCorrect={false}
+						autoCompleteType="name"
+					/>
+					<UserInput
+						name="Email"
+						value={email}
+						setValue={setEmail}
+						autoCompleteType="email"
+						keyboardType="email-address"
+					/>
+					<UserInput
+						name="Password"
+						value={password}
+						setValue={setPassword}
+						secureTextEntry={true}
+						autoCompleteType="password"
+					/>
 
-				<SubmitButton
-					title="signup"
-					handleSubmit={handleSubmit}
-					loading={loading}
-				/>
+					<SubmitButton
+						title="signup"
+						handleSubmit={handleSubmit}
+						loading={loading}
+					/>
 
-				<Text style={styles.bottomtext}>
-					Already a registered user?{' '}
-					<Text
-						style={styles.bottomtextchild}
-						onPress={() => navigation.navigate('Signin')}
-					>
-						Sign In
+					<Text style={styles.bottomtext}>
+						Already a registered user?{' '}
+						<Text
+							style={styles.bottomtextchild}
+							onPress={() => navigation.navigate('Signin')}
+						>
+							Sign In
+						</Text>
 					</Text>
-				</Text>
-			</View>
-		</KeyboardAwareScrollView>
+				</View>
+			</KeyboardAwareScrollView>
+		</ImageBackground>
 	);
 };
 
@@ -112,21 +119,26 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 	},
+	background: {
+		flex: 1,
+		height: '100%',
+	},
 	title: {
 		fontSize: 25,
 		alignSelf: 'center',
 		marginBottom: 40,
-		color: '#019267',
+		color: '#86C6F4',
 		fontWeight: 'bold',
 	},
 	bottomtext: {
 		alignSelf: 'center',
-		fontSize: 13,
+		fontSize: 14,
+		color: '#fff',
 	},
 	bottomtextchild: {
 		color: '#A2D2FF',
 		fontWeight: 'bold',
-		fontSize: 14,
+		fontSize: 15,
 	},
 });
 

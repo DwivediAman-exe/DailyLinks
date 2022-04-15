@@ -1,5 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Text, StyleSheet, View, ScrollView } from 'react-native';
+import {
+	Text,
+	StyleSheet,
+	View,
+	ScrollView,
+	ImageBackground,
+} from 'react-native';
 import { AuthContext } from '../context/auth';
 import FooterTabs from '../components/nav/FooterTabs';
 import { LinkContext } from '../context/link';
@@ -21,6 +27,7 @@ const Home = ({ navigation }) => {
 
 	const fetchLinks = async () => {
 		const { data } = await axios.get(`/links/${page}`);
+		console.log(data);
 		setLinks([...links, ...data]);
 	};
 
@@ -50,45 +57,56 @@ const Home = ({ navigation }) => {
 	};
 
 	return (
-		<View style={styles.container}>
-			<Search value={keyword} setValue={setKeyword} />
-			<ScrollView showsVerticalScrollIndicator={false}>
-				<Text style={styles.title}>Recent Links</Text>
+		<ImageBackground
+			source={require('../assets/loginbackground.png')}
+			style={styles.background}
+			blurRadius={4}
+			resizeMode="cover"
+		>
+			<View style={styles.container}>
+				<Search value={keyword} setValue={setKeyword} />
+				<ScrollView showsVerticalScrollIndicator={false}>
+					<Text style={styles.title}>Recent Links</Text>
 
-				{links &&
-					links.filter(searched(keyword)).map((link) => (
-						<View key={link._id} style={styles.linkscontainer}>
-							<PreviewCard
-								{...link.urlPreview}
-								handlePress={handlePress}
-								link={link}
-								showIcons={true}
-							/>
-						</View>
-					))}
+					{links &&
+						links.filter(searched(keyword)).map((link) => (
+							<View key={link._id} style={styles.linkscontainer}>
+								<PreviewCard
+									{...link.urlPreview}
+									handlePress={handlePress}
+									link={link}
+									showIcons={true}
+								/>
+							</View>
+						))}
 
-				{linksCount > links?.length && (
-					<SubmitButton
-						title="Load more"
-						handleSubmit={() => setPage(page + 1)}
-					/>
-				)}
-			</ScrollView>
+					{linksCount > links?.length && (
+						<SubmitButton
+							title="Load more"
+							handleSubmit={() => setPage(page + 1)}
+						/>
+					)}
+				</ScrollView>
 
-			<FooterTabs />
-		</View>
+				<FooterTabs />
+			</View>
+		</ImageBackground>
 	);
 };
 
 const styles = StyleSheet.create({
-	container: {
+	container: {},
+	background: {
 		flex: 1,
+		height: '100%',
 	},
 	title: {
-		fontSize: 20,
+		fontSize: 25,
 		alignSelf: 'center',
 		paddingTop: 20,
 		marginBottom: 30,
+		color: '#86C6F4',
+		fontWeight: 'bold',
 	},
 	linkscontainer: {
 		alignItems: 'center',

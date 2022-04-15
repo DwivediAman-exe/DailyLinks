@@ -1,4 +1,5 @@
 const Link = require('../models/link');
+const User = require('../models/user');
 
 exports.postLink = async (req, res) => {
 	try {

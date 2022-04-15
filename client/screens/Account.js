@@ -1,5 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
+import {
+	View,
+	StyleSheet,
+	Text,
+	Image,
+	TouchableOpacity,
+	ImageBackground,
+} from 'react-native';
 import SubmitButton from '../components/auth/SubmitButton';
 import UserInput from '../components/auth/UserInput';
 import axios from 'axios';
@@ -95,80 +102,92 @@ const Account = ({ navigation }) => {
 	};
 
 	return (
-		<KeyboardAwareScrollView contentContainerStyle={styles.container}>
-			<View>
-				<Circlelogo>
+		<ImageBackground
+			source={require('../assets/loginbackground.png')}
+			style={styles.background}
+			blurRadius={1}
+			resizeMode="cover"
+		>
+			<KeyboardAwareScrollView contentContainerStyle={styles.container}>
+				<View>
+					<Circlelogo>
+						{image && image.url ? (
+							<Image
+								source={{ uri: image.url }}
+								style={styles.image}
+							/>
+						) : uploadImage ? (
+							<Image
+								source={{ uri: uploadImage }}
+								style={styles.image}
+							/>
+						) : (
+							<TouchableOpacity onPress={() => handleUpload()}>
+								<FontAwesome5
+									name="camera"
+									size={45}
+									color="orange"
+								/>
+							</TouchableOpacity>
+						)}
+					</Circlelogo>
+
 					{image && image.url ? (
-						<Image
-							source={{ uri: image.url }}
-							style={styles.image}
-						/>
-					) : uploadImage ? (
-						<Image
-							source={{ uri: uploadImage }}
-							style={styles.image}
-						/>
-					) : (
 						<TouchableOpacity onPress={() => handleUpload()}>
 							<FontAwesome5
 								name="camera"
-								size={45}
+								size={30}
 								color="orange"
+								style={{
+									alignSelf: 'center',
+									marginTop: -10,
+									marginBottom: 10,
+								}}
 							/>
 						</TouchableOpacity>
+					) : (
+						<></>
 					)}
-				</Circlelogo>
 
-				{image && image.url ? (
-					<TouchableOpacity onPress={() => handleUpload()}>
-						<FontAwesome5
-							name="camera"
-							size={30}
-							color="orange"
-							style={{
-								alignSelf: 'center',
-								marginTop: -10,
-								marginBottom: 10,
-							}}
-						/>
-					</TouchableOpacity>
-				) : (
-					<></>
-				)}
+					<View>
+						<Text style={styles.title}>{name}</Text>
+						<Text style={styles.subinfo}>{email}</Text>
+						<Text style={styles.m}>{role}</Text>
+					</View>
 
-				<View>
-					<Text style={styles.title}>{name}</Text>
-					<Text style={styles.subinfo}>{email}</Text>
-					<Text style={styles.m}>{role}</Text>
+					<UserInput
+						name="Update Password"
+						value={password}
+						setValue={setPassword}
+						secureTextEntry={true}
+						autoCompleteType="password"
+					/>
+
+					<SubmitButton
+						title="Update Password"
+						handleSubmit={handleSubmit}
+						loading={loading}
+					/>
+
+					<SubmitButton
+						title="Sign Out"
+						handleSubmit={signOut}
+						loading={loading}
+					/>
 				</View>
-
-				<UserInput
-					name="Update Password"
-					value={password}
-					setValue={setPassword}
-					secureTextEntry={true}
-					autoCompleteType="password"
-				/>
-
-				<SubmitButton
-					title="Update Password"
-					handleSubmit={handleSubmit}
-					loading={loading}
-				/>
-
-				<SubmitButton
-					title="Sign Out"
-					handleSubmit={signOut}
-					loading={loading}
-				/>
-			</View>
-		</KeyboardAwareScrollView>
+			</KeyboardAwareScrollView>
+		</ImageBackground>
 	);
 };
 
 const styles = StyleSheet.create({
 	container: {
 		justifyContent: 'center',
+		paddingTop: 30,
+	},
+	background: {
+		flex: 1,
+		height: '100%',
 	},
 	image: {
 		height: 180,

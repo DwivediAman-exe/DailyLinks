@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, ImageBackground } from 'react-native';
 import SubmitButton from '../components/auth/SubmitButton';
 import UserInput from '../components/auth/UserInput';
 import axios from 'axios';
@@ -57,53 +57,62 @@ const Signin = ({ navigation }) => {
 	};
 
 	return (
-		<KeyboardAwareScrollView contentContainerStyle={styles.container}>
-			<View>
-				<Circlelogo />
-				<Text style={styles.title}>Sign In</Text>
+		<ImageBackground
+			source={require('../assets/loginbackground.png')}
+			style={styles.background}
+			blurRadius={1}
+			resizeMode="cover"
+		>
+			<KeyboardAwareScrollView contentContainerStyle={styles.container}>
+				<View>
+					<Circlelogo />
+					<Text style={styles.title}>Sign In</Text>
 
-				<UserInput
-					name="Email"
-					value={email}
-					setValue={setEmail}
-					autoCompleteType="email"
-					keyboardType="email-address"
-				/>
-				<UserInput
-					name="Password"
-					value={password}
-					setValue={setPassword}
-					secureTextEntry={true}
-					autoCompleteType="password"
-				/>
+					<UserInput
+						name="Email"
+						value={email}
+						setValue={setEmail}
+						autoCompleteType="email"
+						keyboardType="email-address"
+					/>
+					<UserInput
+						name="Password"
+						value={password}
+						setValue={setPassword}
+						secureTextEntry={true}
+						autoCompleteType="password"
+					/>
 
-				<SubmitButton
-					title="signin"
-					handleSubmit={handleSubmit}
-					loading={loading}
-				/>
+					<SubmitButton
+						title="signin"
+						handleSubmit={handleSubmit}
+						loading={loading}
+					/>
 
-				<Text style={styles.bottomtext}>
-					Don't have a account?{' '}
-					<Text
-						style={styles.bottomtextchild}
-						onPress={() => navigation.navigate('Signup')}
-					>
-						Sign Up
+					<Text style={styles.bottomtext}>
+						Don't have a account?{' '}
+						<Text
+							style={styles.bottomtextchild}
+							onPress={() => navigation.navigate('Signup')}
+						>
+							Sign Up
+						</Text>
 					</Text>
-				</Text>
 
-				<Text style={styles.bottomtext}>
-					Forgot Password?{' '}
-					<Text
-						onPress={() => navigation.navigate('ForgotPassword')}
-						style={styles.bottomtextchild}
-					>
-						Click here
+					<Text style={styles.bottomtext}>
+						Forgot Password?{' '}
+						<Text
+							onPress={() =>
+								navigation.navigate('ForgotPassword')
+							}
+							style={styles.bottomtextchild}
+						>
+							Click here
+						</Text>
 					</Text>
-				</Text>
-			</View>
-		</KeyboardAwareScrollView>
+				</View>
+			</KeyboardAwareScrollView>
+		</ImageBackground>
 	);
 };
 
@@ -112,22 +121,27 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 	},
+	background: {
+		flex: 1,
+		height: '100%',
+	},
 	title: {
 		fontSize: 25,
 		alignSelf: 'center',
 		marginBottom: 40,
-		color: '#019267',
+		color: '#86C6F4',
 		fontWeight: 'bold',
 	},
 	bottomtext: {
+		color: '#fff',
 		alignSelf: 'center',
 		marginTop: 10,
-		fontSize: 13,
+		fontSize: 14,
 	},
 	bottomtextchild: {
 		color: '#A2D2FF',
 		fontWeight: 'bold',
-		fontSize: 14,
+		fontSize: 15,
 	},
 });
 

@@ -5,7 +5,9 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { Divider } from '@rneui/base';
 
 export const Tab = ({ name, text, handlePress, screenName, routeName }) => {
-	const activeScreenColor = screenName === routeName && '#F76E11';
+	const activeScreenColor = screenName === routeName ? '#fff' : '#86C6F4';
+	const activeBackgroundPillColor =
+		screenName === routeName ? '#fff' : '#86C6F4';
 
 	return (
 		<TouchableOpacity onPress={handlePress}>
@@ -18,7 +20,9 @@ export const Tab = ({ name, text, handlePress, screenName, routeName }) => {
 				}}
 				color={activeScreenColor}
 			/>
-			<Text>{text}</Text>
+			<Text style={{ color: `${activeBackgroundPillColor}` }}>
+				{text}
+			</Text>
 		</TouchableOpacity>
 	);
 };
@@ -67,11 +71,10 @@ const FooterTabs = () => {
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
-		marginVertical: 8,
-		marginHorizontal: 30,
+		paddingHorizontal: 30,
+		paddingVertical: 8,
 		justifyContent: 'space-between',
 	},
-	activetab: {},
 });
 
 export default FooterTabs;

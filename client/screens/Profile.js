@@ -80,7 +80,7 @@ const Profile = () => {
 					height: '100%',
 					alignItems: 'center',
 					justifyContent: 'center',
-					backgroundColor: '#fff',
+					backgroundColor: '#1f1f1f',
 				}}
 			>
 				<Image
@@ -93,9 +93,9 @@ const Profile = () => {
 
 	return (
 		<ImageBackground
-			source={require('../assets/background.jpg')}
+			source={require('../assets/loginbackground.png')}
 			style={styles.background}
-			blurRadius={10}
+			blurRadius={4}
 			resizeMode="cover"
 		>
 			<View style={{ alignItems: 'center' }}>
@@ -124,7 +124,9 @@ const Profile = () => {
 
 					{userLinks?.map((link) => (
 						<View key={link._id} style={styles.container1}>
-							<Text>Title - {link?.urlPreview?.ogTitle}</Text>
+							<Text style={styles.linktitle}>
+								Title - {link?.urlPreview?.ogTitle}
+							</Text>
 							<View
 								style={{
 									flexDirection: 'row',
@@ -132,7 +134,9 @@ const Profile = () => {
 									alignItems: 'center',
 								}}
 							>
-								<Text>✔ Views - {link?.views}</Text>
+								<Text style={styles.linkviews}>
+									✔ Views - {link?.views}
+								</Text>
 								{auth?.user?._id === link?.postedBy?._id && (
 									<TouchableOpacity
 										onPress={() => handleDelete(link._id)}
@@ -140,7 +144,7 @@ const Profile = () => {
 										<FontAwesome5
 											size={15}
 											name="trash"
-											color="#ff9900"
+											color="#F55353"
 											style={{ paddingLeft: 10 }}
 										/>
 									</TouchableOpacity>
@@ -164,8 +168,8 @@ const styles = StyleSheet.create({
 		height: '100%',
 	},
 	loading: {
-		height: 100,
-		width: 100,
+		height: '30%',
+		width: '50%',
 	},
 	image: {
 		height: 180,
@@ -173,29 +177,43 @@ const styles = StyleSheet.create({
 		borderRadius: 100,
 		marginTop: 30,
 		marginBottom: 8,
+		borderWidth: 2,
+		borderColor: '#40DFEF',
 	},
 	title: {
 		fontSize: 25,
 		alignSelf: 'center',
 		marginBottom: 2,
+		color: '#40DFEF',
 	},
 	role: {
 		fontSize: 12,
 		alignSelf: 'center',
+		color: '#40DFEF',
 	},
 	joined: {
 		fontSize: 12,
 		alignSelf: 'center',
+		color: '#40DFEF',
 	},
 	links: {
 		marginTop: 10,
 		fontSize: 15,
 		alignSelf: 'center',
+		color: '#fff',
+	},
+	linktitle: {
+		color: '#FFD36E',
+	},
+	linkviews: {
+		color: '#DFDFDE',
 	},
 	container1: {
 		alignSelf: 'flex-start',
 		paddingVertical: 10,
-		paddingHorizontal: 10,
+		paddingHorizontal: 15,
+		width: '100%',
+		marginVertical: 10,
 	},
 });
 

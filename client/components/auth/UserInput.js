@@ -32,13 +32,13 @@ const styles = StyleSheet.create({
 	},
 	label: {
 		fontSize: 16,
-		color: '#000',
+		color: '#FFC300',
 	},
 	input: {
-		borderBottomColor: '#234234',
+		borderBottomColor: '#AD8B73',
 		borderBottomWidth: 0.6,
 		fontSize: 15,
-		color: '#733C3C',
+		color: '#EFFFFD',
 		height: 32,
 	},
 });

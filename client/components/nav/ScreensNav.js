@@ -81,7 +81,8 @@ export default function ScreensNav() {
 						name="TrendingLinks"
 						component={TrendingLinks}
 						options={{
-							title: '',
+							title: 'Trending',
+							headerTitleAlign: 'center',
 							headerTintColor: '#247881',
 						}}
 					/>

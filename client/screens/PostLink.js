@@ -5,6 +5,7 @@ import {
 	ScrollView,
 	TextInput,
 	Text,
+	ImageBackground,
 	SafeAreaView,
 } from 'react-native';
 import FooterTabs from '../components/nav/FooterTabs';
@@ -68,56 +69,69 @@ const PostLink = ({ navigation }) => {
 	};
 
 	return (
-		<SafeAreaView style={styles.container}>
-			<ScrollView showsVerticalScrollIndicator={false}>
-				<Text style={styles.title}>Paste Website URL</Text>
+		<ImageBackground
+			source={require('../assets/loginbackground.png')}
+			style={styles.background}
+			blurRadius={1}
+			resizeMode="cover"
+		>
+			<SafeAreaView style={styles.container}>
+				<ScrollView showsVerticalScrollIndicator={false}>
+					<Text style={styles.title}>Paste Website URL</Text>
 
-				<TextInput
-					placeholder="Paste the url here"
-					autoCapitalize="none"
-					autoCorrect={false}
-					value={link}
-					onChangeText={(text) => handleChange(text)}
-					style={styles.inputlink}
-				/>
-				<TextInput
-					placeholder="Give it a title"
-					autoCapitalize="sentences"
-					value={title}
-					onChangeText={(text) => setTitle(text)}
-					style={styles.inputlink}
-				/>
+					<TextInput
+						placeholder="Paste the url here"
+						autoCapitalize="none"
+						autoCorrect={false}
+						value={link}
+						onChangeText={(text) => handleChange(text)}
+						style={styles.inputlink}
+					/>
+					<TextInput
+						placeholder="Give it a title"
+						autoCapitalize="sentences"
+						value={title}
+						onChangeText={(text) => setTitle(text)}
+						style={styles.inputlink}
+					/>
 
-				{urlPreview.success && (
-					<View
-						style={{
-							marginTop: 30,
-							alignItems: 'center',
-						}}
-					>
-						<PreviewCard {...urlPreview} />
-					</View>
-				)}
+					{urlPreview.success && (
+						<View
+							style={{
+								marginTop: 30,
+								alignItems: 'center',
+							}}
+						>
+							<PreviewCard {...urlPreview} />
+						</View>
+					)}
 
-				<SubmitButton
-					title="Submit"
-					loading={loading}
-					handleSubmit={handleSubmit}
-				/>
-			</ScrollView>
+					<SubmitButton
+						title="Submit"
+						loading={loading}
+						handleSubmit={handleSubmit}
+					/>
+				</ScrollView>
 
-			<FooterTabs />
-		</SafeAreaView>
+				<FooterTabs />
+			</SafeAreaView>
+		</ImageBackground>
 	);
 };
 
 const styles = StyleSheet.create({
 	container: { flex: 1 },
+	background: {
+		flex: 1,
+		height: '100%',
+	},
 	title: {
-		fontSize: 20,
+		fontSize: 25,
 		alignSelf: 'center',
-		paddingTop: 20,
-		marginBottom: 30,
+		paddingTop: 30,
+		marginBottom: 25,
+		color: '#86C6F4',
+		fontWeight: 'bold',
 	},
 	inputlink: {
 		marginHorizontal: 20,

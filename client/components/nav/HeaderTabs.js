@@ -14,7 +14,7 @@ const HeaderTabs = (props) => {
 			<TouchableOpacity
 				onPress={() => navigation.navigate('TrendingLinks')}
 			>
-				<FontAwesome5 name="bell" size={25} color="#ff9900" />
+				<FontAwesome5 name="bell" size={25} color="#247881" />
 			</TouchableOpacity>
 		</View>
 	);
