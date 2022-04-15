@@ -95,7 +95,9 @@ const Home = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-	container: {},
+	container: {
+		flex: 1,
+	},
 	background: {
 		flex: 1,
 		height: '100%',
